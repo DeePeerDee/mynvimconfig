@@ -22,18 +22,17 @@ return {
           "jdtls",
           "lemminx",
           "gradle_ls",
-          "yamlls",
           "html",
           "cssls"
         },
       })
-
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       vim.iter(mason_lspconfig.get_installed_servers()):each(function(server_name)
 
-        if server_name == "jdtls" then return end
-
+        if server_name == "jdtls" then
+          return
+        end
 
         local config = require("lspconfig.configs." .. server_name)
 
@@ -48,44 +47,45 @@ return {
             }
           elseif server_name == "clangd" then
             config.capabilities.offsetEncoding = { "utf-16" }
-          elseif server_name == "yamlls" then
+          elseif server_name == "gradle_ls" then
+            config.filetypes = { "gradle", "kotlin" }
             config.settings = {
-              yaml = {
-                schemas = {
-                  ["https://json.schemastore.org/spring-boot-properties-2.7.json"] = "application.yaml",
-                  ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*"
-                },
-                completion = true,
-                hover = true,
-                validate = true,
-              },
+              gradle = {
+                wrapper = { enabled = true },
+                build = { enable = true },
+                java = { "/usr/lib/jvm/jre-25-openjdk" },
+                completion = { enabled = true },
+                hover = { enabled = true },
+                validation = { true },
+                downloadSources = true
+              }
             }
           elseif server_name == "lemminx" then
+            config.filetypes = { "xml", "xsd", "pom" }
             config.settings = {
               xml = {
-                server = { vmargs = "-Xmx512m" },
+                server = { vmargs = "-Xmx1g" },
+                format = { enabled = true },
                 maven = {
+                  downloadResources = true,
                   fetchExternalResources = true,
-                  repositories = {
-                    {
-                      id = "local",
-                      url = "file://" .. os.getenv("HOME") .. "/.m2/repository",
-                    },
-                    {
-                      id = "central",
-                      url = "https://repo1.maven.org/maven2",
-                    }
-                  },
                   updateSchedule = "daily",
+                  repositories = {
+                    { id = "local", url = "file://" .. os.getenv("HOME") .. "/.m2/repository" },
+                    { id = "central", url = "https://repo1.maven.org/maven2" },
+                  }
                 },
                 completion = {
                   autoCloseTags = true,
+                  autoCloseRemovableContent = true,
+                },
+                validation = {
+                  enabled = true,
+                  resolveExternalEntities = true,
                 },
                 catalogs = {}
               }
             }
-          elseif server_name == "gradle_ls" then
-            config.filetypes = { "gradle" }
           end
 
           vim.lsp.config(server_name, config)

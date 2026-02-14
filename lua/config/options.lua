@@ -21,13 +21,3 @@ vim.opt.writebackup = false
 vim.opt.laststatus = 2
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.signcolumn = "yes"
-
-vim.filetype.add({
-  extension = {
-    gradle = "gradle",
-  },
-  filename = {
-    ["application.yaml"] = "yaml",
-    ["application.yml"] = "yaml",
-  }
-})
