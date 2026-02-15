@@ -24,6 +24,11 @@ return {
           "groovy",
           "markdown",
           "markdown_inline",
+          "go",
+          "gomod",
+          "gowork",
+          "gosum",
+          "c_sharp",
       },
         highlight = {
           enable = true,

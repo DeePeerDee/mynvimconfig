@@ -11,7 +11,12 @@ return {
       local mason = require("mason")
       local mason_lspconfig = require("mason-lspconfig")
 
-      mason.setup()
+      mason.setup({
+        registries = {
+          "github:mason-org/mason-registry",
+          "github:crashdummyy/mason-registry",
+        }
+      })
       mason_lspconfig.setup({
         ensure_installed = {
           "lua_ls",
@@ -23,7 +28,9 @@ return {
           "lemminx",
           "gradle_ls",
           "html",
-          "cssls"
+          "cssls",
+          "gopls",
+          "roslyn",
         },
       })
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -60,6 +67,14 @@ return {
             config.filetypes = { "python" }
           elseif server_name == "clangd" then
             config.capabilities.offsetEncoding = { "utf-16" }
+          elseif server_name == "gopls" then
+            config.settings = {
+              gopls = {
+                analyses = { unusedparams = true },
+                staticcheck = true,
+                completeUnimported = true,
+              },
+            }
           elseif server_name == "gradle_ls" then
             local util = require("lspconfig.util")
 
