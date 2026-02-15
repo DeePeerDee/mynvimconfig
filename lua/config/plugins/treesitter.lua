@@ -20,7 +20,10 @@ return {
           "json",
           "xml",
           "yaml",
+          "kotlin",
           "groovy",
+          "markdown",
+          "markdown_inline",
       },
         highlight = {
           enable = true,

@@ -17,7 +17,6 @@ local path_to_lombok = jdtls_path .. "/lombok.jar"
 
 local config = {
   cmd = {
---    "/usr/lib/jvm/jre-21-openjdk/bin/java", -- java path
     "java",
     "-Declipse.application=org.eclipse.jdt.ls.core.id1",
     "-Dosgi.bundles.defaultStartLevel=4",

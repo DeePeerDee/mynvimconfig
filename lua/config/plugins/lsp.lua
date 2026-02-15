@@ -28,6 +28,16 @@ return {
       })
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+      vim.filetype.add({
+        pattern = {
+          [".*%.gradle"] = "groovy",
+          [".*%.gradle%.kts"] = "kotlin",
+        },
+        filename = {
+          ["pom.xml"] = "xml",
+        },
+      })
+
       vim.iter(mason_lspconfig.get_installed_servers()):each(function(server_name)
 
         if server_name == "jdtls" then
@@ -45,35 +55,58 @@ return {
                 diagnostics = { globals = { "vim" } },
               },
             }
+          elseif server_name == "pyright" then
+            config.single_file_support = true
+            config.filetypes = { "python" }
           elseif server_name == "clangd" then
             config.capabilities.offsetEncoding = { "utf-16" }
           elseif server_name == "gradle_ls" then
-            config.filetypes = { "gradle", "kotlin" }
+            local util = require("lspconfig.util")
+
+            config.filetypes = { "gradle", "kotlin", "groovy" }
+            config.root_dir = util.root_pattern(
+              "settings.gradle",
+              "settings.gradle.kts",
+              "build.gradle",
+              "build.gradle.kts",
+              "gradlew",
+              ".git"
+            )
+
             config.settings = {
               gradle = {
                 wrapper = { enabled = true },
                 build = { enable = true },
-                java = { "/usr/lib/jvm/jre-25-openjdk" },
+                java = { home = "/usr/lib/jvm/jre-25-openjdk" },
                 completion = { enabled = true },
                 hover = { enabled = true },
-                validation = { true },
+                validation = { enabled = true },
                 downloadSources = true
               }
             }
           elseif server_name == "lemminx" then
-            config.filetypes = { "xml", "xsd", "pom" }
+            config.filetypes = { "xml", "xsd", "xslt", "pom" }
             config.settings = {
               xml = {
                 server = { vmargs = "-Xmx1g" },
                 format = { enabled = true },
                 maven = {
+                  enabled = true,
+                  downloadSources = true,
                   downloadResources = true,
                   fetchExternalResources = true,
-                  updateSchedule = "daily",
-                  repositories = {
-                    { id = "local", url = "file://" .. os.getenv("HOME") .. "/.m2/repository" },
-                    { id = "central", url = "https://repo1.maven.org/maven2" },
+                  updateSchedule = "onDemand",
+                  central = {
+                    enabled = true,
+                  },
+                  updateSnapshots = true,
+                  index = {
+                    enabled = true,
                   }
+--                  repositories = {
+--                    { id = "local", url = "file://" .. os.getenv("HOME") .. "/.m2/repository" },
+--                    { id = "central", url = "https://repo1.maven.org/maven2" },
+--                  }
                 },
                 completion = {
                   autoCloseTags = true,

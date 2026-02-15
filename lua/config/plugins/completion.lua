@@ -39,7 +39,6 @@ return {
               fallback()
             end
           end, { "i", "s" }),
-          ["<C-d>"] = cmp.mapping.scroll_docs(-4),
           ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.selec_prev_item()
@@ -103,7 +102,10 @@ return {
       cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
+          { name = "nvim_lsp" },
+          { name = "otter" },
           { name = "buffer" },
+          { name = "path" },
         },
       })
     end,
