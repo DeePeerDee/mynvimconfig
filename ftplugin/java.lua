@@ -38,6 +38,12 @@ local config = {
       eclipse = {
         downloadSources = true,
       },
+      maven = { downloadSources = true },
+      gradle = { enabled = true },
+      import = {
+        gradle = { enabled = true },
+        maven = { enabled = true },
+      },
       signatureHelp = { enabled = true },
       contentProvider = { preferred = "fernflower" },
       completion = {

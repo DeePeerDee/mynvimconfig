@@ -35,6 +35,7 @@ return {
       max_width_window_percentage = math.huge,
       window_overlap_clear_enabled = true,  -- Toggles images when windows overlap
       window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+      lua_version = "5.1",
     },
   },
   {
@@ -48,6 +49,7 @@ return {
         python = {
           diagnostics = { enabled = true },
           completion = { enabled = true },
+          hover = { enabled = true },
         },
       },
     },
@@ -61,4 +63,16 @@ return {
       })
     end,
   },
+  {
+    "GCBallesteros/jupytext.nvim",
+    opts = {
+      custom_language_formatting = {
+        python = {
+          extension = "ipynb",
+          style = "py:percent",
+          force_ft = "python",
+        },
+      },
+    },
+  }
 }

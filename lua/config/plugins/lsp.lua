@@ -30,7 +30,6 @@ return {
           "html",
           "cssls",
           "gopls",
-          "roslyn",
         },
       })
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -59,12 +58,13 @@ return {
           if server_name == "lua_ls" then
             config.settings = {
               Lua = {
+                runtime = { version = "Lua 5.1" },
                 diagnostics = { globals = { "vim" } },
               },
             }
           elseif server_name == "pyright" then
             config.single_file_support = true
-            config.filetypes = { "python" }
+            config.filetypes = { "python", "ipynb" }
           elseif server_name == "clangd" then
             config.capabilities.offsetEncoding = { "utf-16" }
           elseif server_name == "gopls" then
@@ -100,10 +100,10 @@ return {
               }
             }
           elseif server_name == "lemminx" then
-            config.filetypes = { "xml", "xsd", "xslt", "pom" }
+            config.filetypes = { "xml", "xsd", "xslt", "pom.xml" }
             config.settings = {
               xml = {
-                server = { vmargs = "-Xmx1g" },
+                server = { vmargs = "-Xmx2g" },
                 format = { enabled = true },
                 maven = {
                   enabled = true,
@@ -117,11 +117,11 @@ return {
                   updateSnapshots = true,
                   index = {
                     enabled = true,
+                  },
+                  repositories = {
+                    { id = "local", url = "file://" .. os.getenv("HOME") .. "/.m2/repository" },
+                    { id = "central", url = "https://repo1.maven.org/maven2" },
                   }
---                  repositories = {
---                    { id = "local", url = "file://" .. os.getenv("HOME") .. "/.m2/repository" },
---                    { id = "central", url = "https://repo1.maven.org/maven2" },
---                  }
                 },
                 completion = {
                   autoCloseTags = true,

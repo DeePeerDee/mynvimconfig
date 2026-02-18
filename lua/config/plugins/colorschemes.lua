@@ -4,8 +4,6 @@ return {
 		lazy = false,
 		priority = 1000,
 		config = function()
-      vim.cmd.colorscheme("tokyonight-night")
- 
 		end,
 	},
 	{
@@ -13,7 +11,6 @@ return {
 		lazy = false,
 		priority = 1000,
 		config = function()
---      vim.cmd.colorscheme("catppuccin-frappe")
 		end,
 	},
 	{
@@ -23,5 +20,20 @@ return {
 		config = function()
 		end,
 	},
+  {
+    "navarasu/onedark.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+    end,
+  },
+  {
+    "projekt0n/github-nvim-theme",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("github_dark_default")
+    end,
+  },
 }
 
