@@ -15,6 +15,16 @@ end
 local path_to_config = jdtls_path .. "/config_linux"
 local path_to_lombok = jdtls_path .. "/lombok.jar"
 
+local function jdtls_code_action(filter)
+  vim.lsp.buf.code_action({
+    context = {
+      only = { "source.generate" },
+      diagnostics = {},
+    },
+    filter = filter,
+  })
+end
+
 local config = {
   cmd = {
     "java",
@@ -38,7 +48,6 @@ local config = {
       eclipse = {
         downloadSources = true,
       },
-      maven = { downloadSources = true },
       gradle = { enabled = true },
       import = {
         gradle = { enabled = true },
@@ -78,14 +87,94 @@ local config = {
       format = {
         enabled = true,
       },
+      codeGeneration = {
+        generateComments = true,
+        hashCodeEquals = { useJava7Objects = true },
+        toString = {
+          template = "${object.className} [${member.names()}]",
+        },
+      },
     },
   },
+
   flags = {
     allow_incremental_sync = true,
   },
   init_options = {
     bundles = {},
   },
+
+  on_attach = function(client, bufnr)
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    
+    -- Standard LSP keymaps
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+    -- Show all code actions
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+    -- Generate getters and setters
+    vim.keymap.set('n', '<leader>cgg', function()
+      jdtls_code_action(function(action)
+        return action.title:match("Generate Getters and Setters")
+      end)
+    end, bufopts)
+    -- Generate getters only
+    vim.keymap.set('n', '<leader>cgl', function()
+      jdtls_code_action(function(action)
+        return action.title:match("Generate Getters")
+      end)
+    end, bufopts)
+    -- Generate setters only
+    vim.keymap.set('n', '<leader>csl', function()
+      jdtls_code_action(function(action)
+        return action.title:match("Generate Setters")
+      end)
+    end, bufopts)
+    -- Generate toString
+    vim.keymap.set('n', '<leader>ct', function()
+      jdtls_code_action(function(action)
+        return action.title:match("Generate toString")
+      end)
+    end, bufopts)
+    -- Generate hashCode and equals
+    vim.keymap.set('n', '<leader>ch', function()
+      jdtls_code_action(function(action)
+        return action.title:match("Generate hashCode")
+      end)
+    end, bufopts)
+    -- Generate constructor
+    vim.keymap.set('n', '<leader>cco', function()
+      jdtls_code_action(function(action)
+        return action.title:match("Generate Constructor")
+      end)
+    end, bufopts)
+    -- Generate equals and hashCode
+    vim.keymap.set('n', '<leader>ceq', function()
+      jdtls_code_action(function(action)
+        return action.title:match("Generate equals")
+      end)
+    end, bufopts)
+    -- Organize imports
+    vim.keymap.set('n', '<leader>oi', function()
+      require("jdtls").organize_imports()
+    end, bufopts)
+    -- Extract to variable
+    vim.keymap.set('n', '<leader>ev', function()
+      require("jdtls").extract_variable(true)
+    end, bufopts)
+    -- Extract to method
+    vim.keymap.set('n', '<leader>em', function()
+      require("jdtls").extract_method()
+    end, bufopts)
+    -- Diagnostics
+    vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, bufopts)
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
+  end,
 }
 
 require("jdtls").start_or_attach(config)
