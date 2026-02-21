@@ -102,10 +102,11 @@ return {
       cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = {
-          { name = "nvim_lsp" },
-          { name = "otter" },
-          { name = "buffer" },
-          { name = "path" },
+          { name = 'copilot', group_index = 2 }, -- Give Copilot a higher priority in cmdline
+          { name = 'nvim_lsp', group_index = 2 },    -- Standard LSP
+          { name = 'vim-dadbod-completion', group_index = 2 }, -- For your database work
+          { name = 'buffer', group_index = 2 }, -- Buffer source for search
+          { name = 'path', group_index = 2 }, -- Path source for file searching
         },
       })
     end,

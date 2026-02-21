@@ -25,6 +25,9 @@ require("lazy").setup({
 	spec = {
 		{ import = "config.plugins" },
 	},
+  rocks = {
+    enabled = false,
+  },
 	install = { colorscheme = { "habamax" } },
 	checker = { enabled = true },
 })

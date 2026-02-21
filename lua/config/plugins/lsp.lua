@@ -58,7 +58,7 @@ return {
           if server_name == "lua_ls" then
             config.settings = {
               Lua = {
-                runtime = { version = "Lua 5.1" },
+--                runtime = { version = "Lua 5.1" },
                 diagnostics = { globals = { "vim" } },
               },
             }

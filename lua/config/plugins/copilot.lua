@@ -2,29 +2,19 @@ return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    build = ":Copilot auth",
+    event = "InsertEnter",
     config = function()
       require("copilot").setup({
-        suggestion = {
-          enabled = true,
-          auto_trigger = false,  -- disable noisy suggestions
-          keymap = {
-            accept = "<M-l>",
-            next = "<M-]>",
-            prev = "<M-[>",
-            dismiss = "<C-]>",
-          },
-        },
-        panel = {
-          enabled = true,
-          keymap = {
-            jump_prev = "[[",
-            jump_next = "]]",
-            accept = "<CR>",
-            refresh = "gr",
-          },
-        },
+        -- Disable ghost text so it doesn't fight with nvim-cmp
+        suggestion = { enabled = false },
+        panel = { enabled = false },
       })
     end,
-  }
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+  },
 }
