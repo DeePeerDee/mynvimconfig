@@ -29,6 +29,8 @@ return {
           "gowork",
           "gosum",
           "c_sharp",
+          "ruby",
+          "php",
       },
         highlight = {
           enable = true,

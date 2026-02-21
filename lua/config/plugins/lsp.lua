@@ -30,6 +30,8 @@ return {
           "html",
           "cssls",
           "gopls",
+          "intelephense",
+          "ruby_lsp",
         },
       })
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -67,6 +69,13 @@ return {
             config.filetypes = { "python", "ipynb" }
           elseif server_name == "clangd" then
             config.capabilities.offsetEncoding = { "utf-16" }
+          elseif server_name == "intelephense" then
+            config.settings = {
+              intelephense = {
+                files = { maxSize = 1000000 },
+                -- If you have a license, you can point to it here or at ~/intelephense/licence.txt
+              }
+            }  
           elseif server_name == "gopls" then
             config.settings = {
               gopls = {
@@ -74,6 +83,11 @@ return {
                 staticcheck = true,
                 completeUnimported = true,
               },
+            }
+          elseif server_name == "ruby_lsp" then
+            config.init_options = {
+              formatter = 'standard', -- or 'rubocop'
+              linters = { 'standard' },
             }
           elseif server_name == "gradle_ls" then
             local util = require("lspconfig.util")
