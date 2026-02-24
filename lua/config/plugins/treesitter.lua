@@ -31,6 +31,8 @@ return {
           "c_sharp",
           "ruby",
           "php",
+          "jsx",
+          "tsx",
       },
         highlight = {
           enable = true,

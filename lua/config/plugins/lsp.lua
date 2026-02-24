@@ -37,14 +37,20 @@ return {
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       vim.filetype.add({
-        pattern = {
-          [".*%.gradle"] = "groovy",
-          [".*%.gradle%.kts"] = "kotlin",
-        },
         filename = {
           ["pom.xml"] = "xml",
         },
       })
+      -- -- Global Filetype Overrides
+      -- vim.filetype.add({
+      --   extension = {
+      --     gradle = "groovy",
+      --   },
+      --   filename = {
+      --     ["build.gradle"] = "groovy",
+      --     ["pom.xml"] = "xml",
+      --   },
+      -- })
 
       vim.iter(mason_lspconfig.get_installed_servers()):each(function(server_name)
 
@@ -62,6 +68,24 @@ return {
               Lua = {
 --                runtime = { version = "Lua 5.1" },
                 diagnostics = { globals = { "vim" } },
+              },
+            }
+          elseif server_name == "ts_ls" then
+            config.filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
+            config.settings = {
+              typescript = {
+                suggest = {
+                  autoImports = true,
+                  completeFunctionCalls = true,
+                },
+                updateImportsOnFileMove = { enabled = "always" },
+              },
+              javascript = {
+                suggest = {
+                  autoImports = true,
+                  completeFunctionCalls = true,
+                },
+                updateImportsOnFileMove = { enabled = "always" },
               },
             }
           elseif server_name == "pyright" then
@@ -114,53 +138,55 @@ return {
               }
             }
           elseif server_name == "lemminx" then
-            config.filetypes = { "xml", "xsd", "xslt", "pom.xml" }
-            config.settings = {
-              xml = {
-                server = { vmargs = "-Xmx2g" },
-                format = { enabled = true },
-                maven = {
-                  enabled = true,
-                  downloadSources = true,
-                  downloadResources = true,
-                  fetchExternalResources = true,
-                  updateSchedule = "onDemand",
-                  central = {
+            config.filetypes = { "xml", "xsd", "xslt", "pom" }
+            config.init_options = {
+              settings = {
+                xml = {
+                  server = { vmargs = "-Xmx2g" },
+                  format = { enabled = true },
+                  maven = {
                     enabled = true,
+                    downloadSources = true,
+                    downloadResources = true,
+                    fetchExternalResources = true, -- Crucial for downloading XSDs/Schemas                  fetchExternalResources = true,
+                    updateSchedule = "onDemand",
+                    central = {
+                      enabled = true,
+                    },
+                    updateSnapshots = true,
+                    index = {
+                      enabled = true,
+                    },
+                    repositories = {
+                      {
+                        id = "central",
+                        url = "https://repo1.maven.org/maven2",
+                        layout = "default",
+                      },
+                      {
+                        id = "local",
+                        url = "file://" .. os.getenv("HOME") .. "/.m2/repository",
+                      }
+                    }
                   },
-                  updateSnapshots = true,
-                  index = {
+                  completion = {
+                    autoCloseTags = true,
+                    autoCloseRemovableContent = true,
+                  },
+                  validation = {
                     enabled = true,
+                    resolveExternalEntities = true,
                   },
-                  repositories = {
-                    { id = "local", url = "file://" .. os.getenv("HOME") .. "/.m2/repository" },
-                    { id = "central", url = "https://repo1.maven.org/maven2" },
-                  }
+                  -- Force the schema if it's not being picked up automatically
+                  catalogs = {},
                 },
-                completion = {
-                  autoCloseTags = true,
-                  autoCloseRemovableContent = true,
-                },
-                validation = {
-                  enabled = true,
-                  resolveExternalEntities = true,
-                },
-                catalogs = {}
-              }
+              },
             }
           end
 
           vim.lsp.config(server_name, config)
         end
       end)
-
-      vim.api.nvim_create_autocmd("FileType", {
-        callback = function(args)
-          if vim.bo.filetype ~= "java" then
-            vim.lsp.start(args.file)
-          end
-        end
-      })
     end,
   },
 }
