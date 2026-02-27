@@ -32,6 +32,11 @@ return {
           "gopls",
           "intelephense",
           "ruby_lsp",
+          "solargraph",
+          "asm_lsp",
+          "bashls",
+          "powershell_es",
+          "dockerls",
         },
       })
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -41,16 +46,6 @@ return {
           ["pom.xml"] = "xml",
         },
       })
-      -- -- Global Filetype Overrides
-      -- vim.filetype.add({
-      --   extension = {
-      --     gradle = "groovy",
-      --   },
-      --   filename = {
-      --     ["build.gradle"] = "groovy",
-      --     ["pom.xml"] = "xml",
-      --   },
-      -- })
 
       vim.iter(mason_lspconfig.get_installed_servers()):each(function(server_name)
 
@@ -130,7 +125,6 @@ return {
               gradle = {
                 wrapper = { enabled = true },
                 build = { enable = true },
-                java = { home = "/usr/lib/jvm/jre-25-openjdk" },
                 completion = { enabled = true },
                 hover = { enabled = true },
                 validation = { enabled = true },
@@ -142,6 +136,10 @@ return {
             config.init_options = {
               settings = {
                 xml = {
+                  fileAssociations = {
+                    pattern = "pom.xml",
+                    systemId = "https://maven.apache.org/xsd/maven-4.0.0.xsd"
+                  },
                   server = { vmargs = "-Xmx2g" },
                   format = { enabled = true },
                   maven = {

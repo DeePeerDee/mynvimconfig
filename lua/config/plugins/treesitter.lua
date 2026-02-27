@@ -2,6 +2,11 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      "nvim-treesitter/nvim-treesitter-context",
+      "hiphish/rainbow-delimiters.nvim",
+    },
     config = function()
       require("nvim-treesitter").setup({
         ensure_installed = {
@@ -33,12 +38,34 @@ return {
           "php",
           "jsx",
           "tsx",
+          "vimdoc",
+          "dockerfile",
+          "asm",
+          "ruby",
+          "bash",
+          "powershell",
       },
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = false,
         },
         indent = { enable = true },
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+              ["al"] = "@loop.outer",
+              ["il"] = "@loop.inner",
+              ["aa"] = "@parameter.outer",
+              ["ia"] = "@parameter.inner",
+            },
+          },
+        },
       })
     end,
   }

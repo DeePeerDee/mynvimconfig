@@ -18,7 +18,6 @@ return {
       },
     },
     keys = {
-      -- Open chat with the current buffer as context
       {
         "<leader>ccb",
         function()
@@ -29,10 +28,7 @@ return {
         end,
         desc = "CopilotChat - Chat with current buffer",
       },
-      -- Classic toggle
-      { "<leader>cc", "<cmd>CopilotChatToggle<cr>", desc = "Toggle Copilot Chat" },
-      { "<leader>cc", "<cmd>CopilotChatToggle<cr>", desc = "Toggle Copilot Chat" },
-      { "<leader>ce", "<cmd>CopilotChatExplain<cr>", desc = "Explain Code", mode = "v" },
+      { "<leader>cct", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
     },
   },
 }

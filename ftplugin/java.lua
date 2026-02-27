@@ -78,6 +78,9 @@ local config = {
       maven = {
         downloadSources = true,
       },
+      implementationsCodeLens = {
+        enabled = true
+      },
       referencesCodeLens = {
         enabled = true,
       },
