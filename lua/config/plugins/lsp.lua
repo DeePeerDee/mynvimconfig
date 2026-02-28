@@ -37,6 +37,13 @@ return {
           "bashls",
           "powershell_es",
           "dockerls",
+          "neocmake",
+          "emmet_language_server",
+          "eslint",
+          -- "nginx_language_server",
+          "postgres_lsp",
+          "zls"
+
         },
       })
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -121,14 +128,19 @@ return {
               ".git"
             )
 
-            config.settings = {
-              gradle = {
-                wrapper = { enabled = true },
-                build = { enable = true },
-                completion = { enabled = true },
-                hover = { enabled = true },
-                validation = { enabled = true },
-                downloadSources = true
+            config.init_options = {
+              settings = {
+                gradle = {
+                  wrapper = { enabled = true },
+                  build = { enable = true },
+                  completion = { enabled = true },
+                  hover = { enabled = true },
+                  validation = { enabled = true },
+                  downloadSources = true
+                },
+                gradleJvm = {
+                  javaHome = os.getenv("JAVA_HOME") or "/usr/lib/jvm/jre-25-openjdk",
+                },
               }
             }
           elseif server_name == "lemminx" then
@@ -146,7 +158,7 @@ return {
                     enabled = true,
                     downloadSources = true,
                     downloadResources = true,
-                    fetchExternalResources = true, -- Crucial for downloading XSDs/Schemas                  fetchExternalResources = true,
+                    fetchExternalResources = true, -- Crucial for downloading XSDs/Schemas
                     updateSchedule = "onDemand",
                     central = {
                       enabled = true,
