@@ -42,8 +42,8 @@ return {
           "eslint",
           -- "nginx_language_server",
           "postgres_lsp",
-          "zls"
-
+          "zls",
+          "copilot",
         },
       })
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -56,7 +56,7 @@ return {
 
       vim.iter(mason_lspconfig.get_installed_servers()):each(function(server_name)
 
-        if server_name == "jdtls" then
+        if server_name == "jdtls" or server_name == "copilot" then
           return
         end
 
