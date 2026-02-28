@@ -8,6 +8,19 @@ return {
       -- These are required for image.nvim integration
       vim.g.molten_image_provider = "image.nvim"
       vim.g.molten_output_win_max_height = 20
+
+      vim.api.nvim_set_keymap(
+        "n",
+        "<leader>mi",
+        "<cmd>MoltenInit<CR>",
+        { noremap = true, silent = true }
+      )
+      vim.api.nvim_set_keymap(
+        "n",
+        "<leader>ml",
+        "<cmd>MoltenEvaluateLine<CR>",
+        { noremap = true, silent = true }
+      )
     end,
   },
 
