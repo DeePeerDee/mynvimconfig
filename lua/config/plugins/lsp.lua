@@ -99,7 +99,6 @@ return {
             config.settings = {
               intelephense = {
                 files = { maxSize = 1000000 },
-                -- If you have a license, you can point to it here or at ~/intelephense/licence.txt
               }
             }  
           elseif server_name == "gopls" then
@@ -115,83 +114,85 @@ return {
               formatter = 'standard', -- or 'rubocop'
               linters = { 'standard' },
             }
-          elseif server_name == "gradle_ls" then
-            local util = require("lspconfig.util")
-
-            config.filetypes = { "gradle", "kotlin", "groovy" }
-            config.root_dir = util.root_pattern(
-              "settings.gradle",
-              "settings.gradle.kts",
-              "build.gradle",
-              "build.gradle.kts",
-              "gradlew",
-              ".git"
-            )
-
-            config.init_options = {
-              settings = {
-                gradle = {
-                  wrapper = { enabled = true },
-                  build = { enable = true },
-                  completion = { enabled = true },
-                  hover = { enabled = true },
-                  validation = { enabled = true },
-                  downloadSources = true
-                },
-                gradleJvm = {
-                  javaHome = os.getenv("JAVA_HOME") or "/usr/lib/jvm/jre-25-openjdk",
-                },
-              }
-            }
-          elseif server_name == "lemminx" then
-            config.filetypes = { "xml", "xsd", "xslt", "pom" }
-            config.init_options = {
-              settings = {
-                xml = {
-                  fileAssociations = {
-                    pattern = "pom.xml",
-                    systemId = "https://maven.apache.org/xsd/maven-4.0.0.xsd"
-                  },
-                  server = { vmargs = "-Xmx2g" },
-                  format = { enabled = true },
-                  maven = {
-                    enabled = true,
-                    downloadSources = true,
-                    downloadResources = true,
-                    fetchExternalResources = true, -- Crucial for downloading XSDs/Schemas
-                    updateSchedule = "onDemand",
-                    central = {
-                      enabled = true,
-                    },
-                    updateSnapshots = true,
-                    index = {
-                      enabled = true,
-                    },
-                    repositories = {
-                      {
-                        id = "central",
-                        url = "https://repo1.maven.org/maven2",
-                        layout = "default",
-                      },
-                      {
-                        id = "local",
-                        url = "file://" .. os.getenv("HOME") .. "/.m2/repository",
-                      }
-                    }
-                  },
-                  completion = {
-                    autoCloseTags = true,
-                    autoCloseRemovableContent = true,
-                  },
-                  validation = {
-                    enabled = true,
-                    resolveExternalEntities = true,
-                  },
-                  -- Force the schema if it's not being picked up automatically
-                  catalogs = {},
-                },
-              },
-            }
+          -- elseif server_name == "gradle_ls" then
+          --   local util = require("lspconfig.util")
+          --
+          --   config.filetypes = { "gradle", "kotlin", "groovy" }
+          --   config.root_dir = util.root_pattern(
+          --     "settings.gradle",
+          --     "settings.gradle.kts",
+          --     "build.gradle",
+          --     "build.gradle.kts",
+          --     "gradlew",
+          --     ".git"
+          --   )
+          --
+          --   config.init_options = {
+          --     settings = {
+          --       gradle = {
+          --         wrapper = { enabled = true },
+          --         build = { enable = true },
+          --         completion = { enabled = true },
+          --         hover = { enabled = true },
+          --         validation = { enabled = true },
+          --         downloadSources = true
+          --       },
+          --       gradleJvm = {
+          --         javaHome = os.getenv("JAVA_HOME") or "/usr/lib/jvm/jre-25-openjdk",
+          --       },
+          --     }
+          --   }
+          -- elseif server_name == "lemminx" then
+          --   config.filetypes = { "xml", "xsd", "xslt", "pom" }
+          --   config.init_options = {
+          --     settings = {
+          --       xml = {
+          --         fileAssociations = {
+          --           {
+          --             pattern = "pom.xml",
+          --             systemId = "https://maven.apache.org/xsd/maven-4.0.0.xsd",
+          --           },
+          --         },
+          --         server = { vmargs = "-Xmx2g" },
+          --         format = { enabled = true },
+          --         maven = {
+          --           enabled = true,
+          --           downloadSources = true,
+          --           downloadResources = true,
+          --           fetchExternalResources = true, -- Crucial for downloading XSDs/Schemas
+          --           updateSchedule = "onDemand",
+          --           central = {
+          --             enabled = true,
+          --           },
+          --           updateSnapshots = true,
+          --           index = {
+          --             enabled = true,
+          --           },
+          --           repositories = {
+          --             {
+          --               id = "central",
+          --               url = "https://repo1.maven.org/maven2",
+          --               layout = "default",
+          --             },
+          --             {
+          --               id = "local",
+          --               url = "file://" .. os.getenv("HOME") .. "/.m2/repository",
+          --             }
+          --           }
+          --         },
+          --         completion = {
+          --           autoCloseTags = true,
+          --           autoCloseRemovableContent = true,
+          --         },
+          --         validation = {
+          --           enabled = true,
+          --           resolveExternalEntities = true,
+          --         },
+          --         -- Force the schema if it's not being picked up automatically
+          --         catalogs = {},
+          --       },
+          --     },
+          --   }
           end
 
           vim.lsp.config(server_name, config)
