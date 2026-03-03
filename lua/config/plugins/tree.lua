@@ -9,6 +9,7 @@ return {
     config = function(_, opts)
       require("nvim-tree").setup(opts)
       vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Explorer" })
+      vim.keymap.set("n", "<leader>E", ":NvimTreeFindFile<CR>", { desc = "Focus Explorer" })
     end,
   },
 }

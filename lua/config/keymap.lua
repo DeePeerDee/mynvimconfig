@@ -4,7 +4,23 @@ vim.g.maplocalleader = '\\'
 vim.keymap.set("n", "<S-Tab>", "<C-w><C-w>", { noremap = true, silent = true })
 vim.keymap.set("n", "<Esc><Esc>", ":nohlsearch<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>=", ":vertical resize 25<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<leader><e>", ":edit ./", { noremap = true, silent = true })
+
+-- Bufferline
+vim.keymap.set("n", "L", ":BufferLineCycleNext<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "H", ":BufferLineCyclePrev<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>x", ":bd<CR>", { noremap = true, silent = true })
+
+-- Buffer Management
+vim.keymap.set("n", "<leader>bo", ":BufferLineCloseOthers<CR>", { noremap = true, silent = true, desc = "Close others" })
+vim.keymap.set("n", "<leader>bl", ":BufferLineCloseLeft<CR>", { noremap = true, silent = true, desc = "Close to the left" })
+vim.keymap.set("n", "<leader>br", ":BufferLineCloseRight<CR>", { noremap = true, silent = true, desc = "Close to the right" })
+
+-- Buffer Jumping
+vim.keymap.set("n", "<leader>1", ":BufferLineGoToBuffer 1<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>2", ":BufferLineGoToBuffer 2<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>3", ":BufferLineGoToBuffer 3<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>4", ":BufferLineGoToBuffer 4<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>5", ":BufferLineGoToBuffer 5<CR>", { noremap = true, silent = true })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
