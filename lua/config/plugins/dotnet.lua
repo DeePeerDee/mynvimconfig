@@ -15,8 +15,7 @@ return {
           }
         }
       })
-
-      require("roslyn").setup()
     end,
+    opts = {},
   },
 }

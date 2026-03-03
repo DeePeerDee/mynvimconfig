@@ -90,13 +90,13 @@ local config = {
       format = {
         enabled = true,
       },
-      codeGeneration = {
-        generateComments = true,
-        hashCodeEquals = { useJava7Objects = true },
-        toString = {
-          template = "${object.className} [${member.names()}]",
-        },
-      },
+      --codeGeneration = {
+      --  generateComments = true,
+      --  hashCodeEquals = { useJava7Objects = true },
+      --  toString = {
+      --    template = "${object.className} [${member.names()}]",
+      --  },
+      --},
     },
   },
 

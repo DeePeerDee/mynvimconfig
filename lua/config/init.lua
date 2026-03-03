@@ -75,3 +75,10 @@ timer:start(0, 1 * 60 * 1000, vim.schedule_wrap(update_theme_on_time_change))
 -- Keymap to toggle theme
 vim.keymap.set("n", "<leader>tt", toggle_theme, { desc = "Toggle Theme" })
 vim.keymap.set("n", "<leader>ta", enable_disable_toggle, { desc = "Enable/Disable Auto Theme" })
+
+vim.filetype.add({
+  extension = {
+    razor = "razor",
+    cshtml = "razor",
+  },
+})

@@ -69,11 +69,11 @@ return {
         mode = { "n", "x" },
         desc = "sidekick select prompt",
       },
-      {
-        "<leader>ac",
-        function() require("sidekick.cli").toggle({ name = "copilot", focus = true }) end,
-        desc = "sidekick toggle copilot",
-      },
+      -- {
+      --   "<leader>ac",
+      --   function() require("sidekick.cli").toggle({ name = "copilot", focus = true }) end,
+      --   desc = "sidekick toggle copilot",
+      -- },
       {
         "<leader>ag",
         function() require("sidekick.cli").toggle({ name = "gemini", focus = true }) end,

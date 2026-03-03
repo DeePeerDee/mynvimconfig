@@ -43,7 +43,7 @@ return {
           -- "nginx_language_server",
           "postgres_lsp",
           "zls",
-          "copilot",
+          -- "copilot",
         },
       })
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -128,7 +128,7 @@ return {
               },
               gradleJvm = {
                 -- Fedora/RedHat standard location fallback
-                javaHome = os.getenv("JAVA_HOME") or "/usr/lib/jvm/jre-25-openjdk",
+                javaHome = os.getenv("JAVA_HOME") or "/usr/lib/jvm/jre-25-openjdk/",
               },
             }
           elseif server_name == "lemminx" then
