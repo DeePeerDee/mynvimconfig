@@ -1,6 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
--- Enable project-specific configs (for that .nvim.lua we discussed)
 vim.o.exrc = true
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then

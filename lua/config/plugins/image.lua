@@ -1,10 +1,10 @@
 return {
   {
     "3rd/image.nvim",
-    dependencies = { "vhyrro/luarocks.nvim" }, -- Optional: helps manage the rock
+    dependencies = { "vhyrro/luarocks.nvim" },
     opts = {
       backend = "kitty",
-      processor = "magick_rock", -- Use the library we installed in Step 2
+      processor = "magick_cli",
       integrations = {
         markdown = {
           enabled = true,
