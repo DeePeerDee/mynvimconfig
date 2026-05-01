@@ -31,7 +31,7 @@ return {
           "cssls",
           "gopls",
           "intelephense",
-          "ruby_lsp",
+          -- "ruby_lsp",
           "solargraph",
           -- "asm_lsp",
           "bashls",
@@ -43,6 +43,7 @@ return {
           -- "nginx_language_server",
           -- "postgres_lsp",
           "zls",
+          "solargraph",
           -- "copilot",
         },
       })
@@ -56,14 +57,10 @@ return {
 
       vim.iter(mason_lspconfig.get_installed_servers()):each(function(server_name)
 
-        if server_name == "jdtls" or server_name == "copilot" then
-          return
-        end
-
         local config = require("lspconfig.configs." .. server_name)
 
         if config then
-          config.capabilities = vim.tbl_deep_extend("force", config.capabilities or {}, capabilities)
+          config.capabilities = capabilities
 
           if server_name == "lua_ls" then
             config.settings = {
