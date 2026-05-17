@@ -1,6 +1,8 @@
 local home = os.getenv("HOME")
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-if project_name == "" then project_name = "default" end
+if not project_name or project_name == "" then
+  project_name = "unknown_project"
+end
 local workspace_dir = home .. "/.cache/jdtls/workspace/" .. project_name
 
 local jdtls_path = home .. "/.local/share/nvim/mason/packages/jdtls"
@@ -63,7 +65,7 @@ local config = {
         },
       },
       configuration = {
-        updateBuildConfiguration = "automatic",
+        updateBuildConfiguration = "interactive",
         runtimes = {
           {
             name = "JavaSE-21",
@@ -72,6 +74,10 @@ local config = {
           {
             name = "JavaSE-25",
             path = "/usr/lib/jvm/java-25-openjdk",
+          },
+          {
+            name = "JavaSE-25",
+            path = "/usr/lib/jvm/java-latest-openjdk",
           },
         }
       },
