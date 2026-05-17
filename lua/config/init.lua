@@ -23,11 +23,11 @@ local function apply_theme()
   -- vim.o.background = config.bg
   vim.o.background = "dark"
   -- vim.cmd.colorscheme(config.colorscheme)
-  vim.cmd.colorscheme("oxocarbon")
+  vim.cmd.colorscheme("edge")
   -- Sync Lualine
   local lualine = require("lualine")
   -- lualine.setup({ options = { theme = config.lualine } })
-  lualine.setup({ options = { theme = "horizon" } })
+  lualine.setup({ options = { theme = "edge" } })
 end
 
 -- 2. Automatic Time Check
@@ -94,10 +94,15 @@ local function get_lualine_themes()
   local paths = vim.api.nvim_get_runtime_file("lua/lualine/themes/*.lua", true)
 
   for _, path in ipairs(paths) do
-    -- Extract the file name without the extension
-    local theme = string.match(path, "([^/]+)%.lua$")
-    if theme then
-      themes[theme] = true
+    -- 1. Verify the file actually exists and is readable on disk
+    local stat = vim.uv.fs_stat(path)
+    if stat and stat.type == "file" then
+      -- 2. Extract the base name cleanly
+      local theme = string.match(path, "([^/\\]+)%.lua$")
+      -- 3. Filter out private/internal modules starting with an underscore
+      if theme and not string.match(theme, "^_") then
+        themes[theme] = true
+      end
     end
   end
 
