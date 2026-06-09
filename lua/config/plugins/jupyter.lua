@@ -3,6 +3,7 @@ return {
   {
     "benlubas/molten-nvim",
     version = "^1.0.0", -- use version 1 for stability
+    dependencies = { "3rd/image.nvim" },
     build = ":UpdateRemotePlugins",
     init = function()
       -- These are required for image.nvim integration
@@ -23,7 +24,6 @@ return {
       )
     end,
   },
-
   -- 2. Quarto or Iron.nvim (Optional, but Quarto is great for "Cells")
   {
     "quarto-dev/quarto-nvim",
@@ -33,6 +33,18 @@ return {
         enabled = true,
         default_method = "molten",
       },
+    },
+  },
+  {
+    "3rd/image.nvim",
+    opts = {
+      backend = "kitty",
+      max_width = 100,
+      max_height = 12,
+      max_height_window_percentage = math.huge,
+      max_width_window_percentage = math.huge,
+      window_overlap_clear_enabled = true,
+      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
     },
   },
 }
