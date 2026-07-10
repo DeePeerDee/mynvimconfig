@@ -85,6 +85,12 @@ vim.filetype.add({
   extension = {
     razor = "razor",
     cshtml = "razor",
+    gradle = "gradle",
+  },
+  filename = {
+    ["pom.xml"] = "xml",
+    ["build.gradle.kts"] = "gradle",
+    ["settings.gradle.kts"] = "gradle",
   },
 })
 

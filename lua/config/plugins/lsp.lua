@@ -33,7 +33,7 @@ return {
           "intelephense",
           -- "ruby_lsp",
           "solargraph",
-          -- "asm_lsp",
+          "asm_lsp",
           "bashls",
           "powershell_es",
           "dockerls",
@@ -43,7 +43,6 @@ return {
           -- "nginx_language_server",
           -- "postgres_lsp",
           "zls",
-          "solargraph",
           -- "copilot",
         },
       })
@@ -57,10 +56,12 @@ return {
 
       vim.iter(mason_lspconfig.get_installed_servers()):each(function(server_name)
 
+        if server_name ~= "jdtls" then
+
         local config = require("lspconfig.configs." .. server_name)
 
         if config then
-          config.capabilities = capabilities
+          config.capabilities = vim.deepcopy(capabilities)
 
           if server_name == "lua_ls" then
             config.settings = {
@@ -97,7 +98,7 @@ return {
               intelephense = {
                 files = { maxSize = 1000000 },
               }
-            }  
+            }
           elseif server_name == "gopls" then
             config.settings = {
               gopls = {
@@ -113,8 +114,15 @@ return {
             }
           elseif server_name == "gradle_ls" then
             local util = require("lspconfig.util")
-            config.filetypes = { "gradle", "groovy", "kotlin" }
-            config.root_dir = util.root_pattern("settings.gradle", "settings.gradle.kts", "build.gradle", "build.gradle.kts", "gradlew", ".git")
+            config.filetypes = { "gradle" }
+            config.root_dir = util.root_pattern(
+              "settings.gradle",
+              "settings.gradle.kts","build.gradle",
+              "build.gradle.kts",
+              "gradlew",
+              ".git"
+            )
+
             config.settings = {
               gradle = {
                 wrapper = { enabled = true },
@@ -122,30 +130,34 @@ return {
                 hover = { enabled = true },
                 validation = { enabled = true },
                 downloadSources = true,
-              },
-              gradleJvm = {
-                -- Fedora/RedHat standard location fallback
-                javaHome = os.getenv("JAVA_HOME") or "/usr/lib/jvm/jre-25-openjdk/",
-              },
+                javaHome = os.getenv("JAVA_HOME") or "/usr/lib/jvm/java-latest-openjdk",
+              }
+            }
+
+            config.init_options = {
+              javaHome = os.getenv("JAVA_HOME") or "/usr/lib/jvm/java-latest-openjdk"
             }
           elseif server_name == "lemminx" then
             local util = require("lspconfig.util")
+            config.filetypes = { "xml", "xsd", "xsl", "xslt", "svg" }
             config.root_dir = util.root_pattern("pom.xml", ".git")
             config.settings = {
               xml = {
                 fileAssociations = {
                   {
-                    pattern = "pom.xml",
+                    pattern = "**/pom.xml",
                     systemId = "https://maven.apache.org/xsd/maven-4.0.0.xsd",
                   },
                 },
+                fetchExternalResources = true,
+                updateSchedule = "onDemand",
                 maven = {
                   enabled = true,
                   central = { enabled = true },
                   index = { enabled = true },
-                  fetchExternalResources = true,
-                  updateSchedule = "onDemand",
                 },
+                central = { enabled = true },
+                index = { enabled = true },
                 completion = {
                   autoCloseTags = true,
                 },
@@ -158,6 +170,7 @@ return {
 
           vim.lsp.config(server_name, config)
         end
+      end
       end)
     end,
   },

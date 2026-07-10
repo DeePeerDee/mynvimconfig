@@ -1,6 +1,9 @@
 return {
   {
     "folke/sidekick.nvim",
+    dependencies = {
+      "folke/snacks.nvim"
+    },
     config = function()
       require("sidekick").setup({
         cli = {
@@ -69,15 +72,20 @@ return {
         mode = { "n", "x" },
         desc = "sidekick select prompt",
       },
-      -- {
-      --   "<leader>ac",
-      --   function() require("sidekick.cli").toggle({ name = "copilot", focus = true }) end,
-      --   desc = "sidekick toggle copilot",
-      -- },
       {
-        "<leader>ag",
-        function() require("sidekick.cli").toggle({ name = "gemini", focus = true }) end,
-        desc = "sidekick toggle gemini",
+        "<leader>a1",
+        function() require("sidekick.cli").toggle({ name = "copilot", focus = true }) end,
+        desc = "sidekick toggle copilot",
+      },
+      {
+        "<leader>a2",
+        function() require("sidekick.cli").toggle({ name = "opencode", focus = true }) end,
+        desc = "sidekick toggle copilot",
+      },
+      {
+        "<leader>a3",
+        function() require("sidekick.cli").toggle({ name = "codex", focus = true }) end,
+        desc = "sidekick toggle copilot",
       },
     },
   }
